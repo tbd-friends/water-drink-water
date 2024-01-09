@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{69408543-1
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B18C030F-C19D-463B-A5D1-63B3AD1B4731}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "application.tests", "tests\application.tests\application.tests.csproj", "{889CDFC4-EE77-4691-8826-41103EB12371}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +33,12 @@ Global
 		{B3F59A62-9DC1-4E25-A101-4EE1724DB01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3F59A62-9DC1-4E25-A101-4EE1724DB01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3F59A62-9DC1-4E25-A101-4EE1724DB01A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{889CDFC4-EE77-4691-8826-41103EB12371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{889CDFC4-EE77-4691-8826-41103EB12371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{889CDFC4-EE77-4691-8826-41103EB12371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{889CDFC4-EE77-4691-8826-41103EB12371}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{889CDFC4-EE77-4691-8826-41103EB12371} = {B18C030F-C19D-463B-A5D1-63B3AD1B4731}
 	EndGlobalSection
 EndGlobal
