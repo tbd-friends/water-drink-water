@@ -1,17 +1,28 @@
 ﻿using FastEndpoints;
+using Microsoft.AspNetCore.Http.HttpResults;
+using TbdFriends.WaterDrinkWater.Application.Services;
 
 namespace TbdFriends.WaterDrinkWater.Api.Endpoints.Registration;
 
-public class Post : Endpoint<Post.Parameters>
+public class Post : Endpoint<Post.Parameters, Results<Ok<bool>, BadRequest>>
 {
-    public Post()
+    private readonly AccountService _accountService;
+
+    public Post(AccountService accountService)
     {
+        _accountService = accountService;
+
         Post("api/registration");
     }
 
-    public override Task HandleAsync(Parameters req, CancellationToken ct)
+    public override Task HandleAsync(Parameters request, CancellationToken ct)
     {
-        return Task.CompletedTask;
+        var result = _accountService.Register(
+            request.Name,
+            request.Email,
+            request.Password);
+
+        return Task.FromResult(result.IsSuccess ? Results.Ok() : Results.BadRequest());
     }
 
     public class Parameters
