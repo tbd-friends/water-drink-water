@@ -10,7 +10,7 @@ public class when_registering_an_account_and_email_has_not_been_used
 
         var repository = Substitute.For<IAccountRepository>();
 
-        var sut = new AccountService(repository);
+        var sut = new AccountService(repository, (password) => password);
 
         // Act
 
@@ -30,7 +30,7 @@ public class when_registering_an_account_and_email_has_not_been_used
 
         var repository = Substitute.For<IAccountRepository>();
 
-        var sut = new AccountService(repository);
+        var sut = new AccountService(repository, (password) => password);
 
         // Act
 

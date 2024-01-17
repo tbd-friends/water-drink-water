@@ -9,7 +9,7 @@ public class Password(string value)
 
     public static implicit operator string(Password password)
     {
-        using readonly SHA256 sha256Hash = SHA256.Create();
+        using SHA256 sha256Hash = SHA256.Create();
 
         // ComputeHash - returns byte array  
         var bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password.Value));

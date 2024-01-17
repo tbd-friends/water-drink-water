@@ -6,14 +6,14 @@ namespace application.tests;
 public class when_registering_an_account
 {
     [Fact]
-    public void password_is_not_stored_in_plain_text()
+    public void password_respects_hash_password_delegate()
     {
         // Arrange 
 
         var repository = Substitute.For<IAccountRepository>();
 
-        var sut = new AccountService(repository, 
-            (password) => new Password(password));
+        var sut = new AccountService(repository,
+            (password) => password.Reverse().ToString()!);
 
         // Act
 
@@ -23,6 +23,6 @@ public class when_registering_an_account
 
         repository
             .Received()
-            .Add(Arg.Is<Account>(x => x.Password != "password"));
+            .Add(Arg.Is<Account>(x => x.Password == "password".Reverse().ToString()));
     }
 }

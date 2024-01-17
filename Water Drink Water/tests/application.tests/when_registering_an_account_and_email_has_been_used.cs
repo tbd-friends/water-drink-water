@@ -15,7 +15,7 @@ public class when_registering_an_account_and_email_has_been_used
             .GetByEmail("email")
             .Returns(new Account());
 
-        var sut = new AccountService(repository);
+        var sut = new AccountService(repository, (password) => password);
 
         // Act
 
@@ -39,7 +39,7 @@ public class when_registering_an_account_and_email_has_been_used
             .GetByEmail("email")
             .Returns(new Account());
 
-        var sut = new AccountService(repository);
+        var sut = new AccountService(repository, (password) => password);
 
         // Act
 
