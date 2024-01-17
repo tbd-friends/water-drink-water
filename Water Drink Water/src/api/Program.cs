@@ -1,6 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using TbdFriends.WaterDrinkWater.Application.Services;
 using TbdFriends.WaterDrinkWater.Application.Values;
+using TbdFriends.WaterDrinkWater.Data.Contexts;
 using TbdFriends.WaterDrinkWater.Data.Contracts;
+using TbdFriends.WaterDrinkWater.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(configure =>
+    configure.UseSqlite(
+        builder.Configuration.GetConnectionString("default")));
+
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 builder.Services.AddScoped<AccountService>(provider => new AccountService(
     provider.GetRequiredService<IAccountRepository>(),
@@ -23,3 +32,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.Run();
