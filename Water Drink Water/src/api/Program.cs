@@ -1,3 +1,4 @@
+using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using TbdFriends.WaterDrinkWater.Application.Services;
 using TbdFriends.WaterDrinkWater.Application.Values;
@@ -11,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddFastEndpoints();
 
 builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(configure =>
     configure.UseSqlite(
@@ -32,5 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseFastEndpoints();
 
 app.Run();

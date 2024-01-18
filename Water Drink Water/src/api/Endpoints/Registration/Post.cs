@@ -11,8 +11,13 @@ public class Post : Endpoint<Post.Parameters, Results<Ok<bool>, BadRequest>>
     public Post(AccountService accountService)
     {
         _accountService = accountService;
+    }
 
+    public override void Configure()
+    {
         Post("api/registration");
+
+        AllowAnonymous();
     }
 
     public override Task HandleAsync(Parameters request, CancellationToken ct)
