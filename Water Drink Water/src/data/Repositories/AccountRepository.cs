@@ -22,4 +22,23 @@ public class AccountRepository(IDbContextFactory<ApplicationDbContext> factory) 
 
         return context.Accounts.FirstOrDefault(a => a.Email == email);
     }
+
+    public LoginSession? GetLoginSession(string email)
+    {
+        using var context = factory.CreateDbContext();
+
+        return (from a in context.Accounts
+            join ls in context.LoginSessions on a.Id equals ls.AccountId
+            where a.Email == email
+            select ls).FirstOrDefault();
+    }
+
+    public void AddLoginSession(LoginSession loginSession)
+    {
+        using var context = factory.CreateDbContext();
+
+        context.LoginSessions.Add(loginSession);
+
+        context.SaveChanges();
+    }
 }

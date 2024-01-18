@@ -25,6 +25,8 @@ builder.Services.AddScoped<AccountService>(provider => new AccountService(
     provider.GetRequiredService<IAccountRepository>(),
     (password) => new Password(password)));
 
+builder.Services.AddScoped<LoginService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
