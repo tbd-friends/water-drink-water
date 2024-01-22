@@ -15,6 +15,8 @@
 
     <ItemGroup>
       <PackageReference Include="Ardalis.Result" Version="7.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
     </ItemGroup>
 
 </Project>

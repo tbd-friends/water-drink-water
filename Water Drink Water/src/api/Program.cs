@@ -1,5 +1,8 @@
+using System.Text;
 using FastEndpoints;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TbdFriends.WaterDrinkWater.Application.Services;
 using TbdFriends.WaterDrinkWater.Application.Values;
 using TbdFriends.WaterDrinkWater.Data.Contexts;
@@ -19,13 +22,35 @@ builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(configure =>
     configure.UseSqlite(
         builder.Configuration.GetConnectionString("default")));
 
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 
 builder.Services.AddScoped<AccountService>(provider => new AccountService(
     provider.GetRequiredService<IAccountRepository>(),
     (password) => new Password(password)));
 
-builder.Services.AddScoped<LoginService>();
+builder.Services.AddSingleton<LoginService>();
+builder.Services.AddSingleton<JwtService>();
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["auth:issuer"],
+            ValidAudience = builder.Configuration["auth:audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["auth:audience"]!))
+        };
+    });
 
 var app = builder.Build();
 
@@ -37,6 +62,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.UseFastEndpoints();
 

@@ -5,7 +5,9 @@ using TbdFriends.WaterDrinkWater.Data.Models;
 
 namespace TbdFriends.WaterDrinkWater.Application.Services;
 
-public class LoginService(IAccountRepository accountRepository)
+public class LoginService(
+    IAccountRepository accountRepository,
+    JwtService tokenService)
 {
     public Result<string> Login(string email, string password)
     {
@@ -16,24 +18,9 @@ public class LoginService(IAccountRepository accountRepository)
             return Result.Forbidden();
         }
 
-        var session = accountRepository.GetLoginSession(account.Email);
+        var token = tokenService.GenerateToken($"wdw|{account.Id}", account.Email);
 
-        if (session is not null)
-        {
-            return Result.Success(session.Token);
-        }
-
-        var newSession = new LoginSession
-        {
-            Token = Guid.NewGuid().ToString(),
-            AccountId = account.Id,
-            Created = DateTime.UtcNow,
-            Expiration = DateTime.UtcNow.AddHours(1)
-        };
-
-        accountRepository.AddLoginSession(newSession);
-
-        return Result.Success(newSession.Token);
+        return Result.Success(token);
     }
 
     private static bool IsPasswordValid(Account account, string password)

@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <PackageReference Include="FastEndpoints" Version="5.21.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
           <PrivateAssets>all</PrivateAssets>
@@ -25,6 +26,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\application\application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Infrastructure\" />
     </ItemGroup>
 
 </Project>
