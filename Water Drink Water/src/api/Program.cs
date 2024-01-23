@@ -31,6 +31,16 @@ builder.Services.AddScoped<AccountService>(provider => new AccountService(
 builder.Services.AddSingleton<LoginService>();
 builder.Services.AddSingleton<JwtService>();
 
+builder.Services.AddCors(configure =>
+{
+    configure.AddPolicy("Default", policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    });
+});
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddAuthentication(options =>
@@ -68,5 +78,7 @@ app.UseAuthorization();
 app.UseAuthentication();
 
 app.UseFastEndpoints();
+
+app.UseCors("Default");
 
 app.Run();

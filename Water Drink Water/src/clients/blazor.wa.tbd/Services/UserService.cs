@@ -1,19 +1,31 @@
 ﻿using System.Net.Http.Json;
+using Blazored.LocalStorage;
 
 namespace blazor.wa.tbd.Services;
 
-public class UserService(HttpClient client)
+public class UserService(
+    HttpClient client,
+    ILocalStorageService localStorage)
 {
-    public async Task<string> Authenticate(string email, string password)
+    public async Task<bool> IsAuthenticated()
+    {
+        var token = await localStorage.GetItemAsync<string>("token");
+
+        return token is not null;
+    }
+
+    public async Task<bool> Authenticate(string email, string password)
     {
         var response = await client.PostAsJsonAsync("api/login", new { email, password });
         var token = await response.Content.ReadAsStringAsync();
 
-        if (token is null)
+        if (string.IsNullOrWhiteSpace(token))
         {
-            throw new("Invalid email or password");
+            return false;
         }
 
-        return token;
+        await localStorage.SetItemAsync("token", token);
+
+        return true;
     }
 }
