@@ -1,6 +1,27 @@
 ﻿@page "/log"
+@using blazor.wa.tbd.Services
 <h3>Log</h3>
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Log Water Consumption</h1>
+            <label for="fluid-ounces-consumed">Fluid Ounces Consumed</label>
+            <input id="fluid-ounces-consumed" type="number" class="form-control" @bind="FluidOuncesConsumed"/>
+            <button class="btn btn-primary" onclick="@(async () => await LogConsumption())">Log</button>
+        </div>
+    </div>
+</div>
+
+
 @code {
+    [Inject] private UserService UserService { get; set; } = null!;
+
+    private int FluidOuncesConsumed { get; set; } = 0;
+
+    private async Task LogConsumption()
+    {
+        await UserService.LogConsumption(FluidOuncesConsumed);
+    }
 
 }

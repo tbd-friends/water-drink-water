@@ -23,10 +23,13 @@ builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(configure =>
         builder.Configuration.GetConnectionString("default")));
 
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+builder.Services.AddTransient<IConsumptionRepository, ConsumptionRepository>();
 
 builder.Services.AddScoped<AccountService>(provider => new AccountService(
     provider.GetRequiredService<IAccountRepository>(),
     (password) => new Password(password)));
+
+builder.Services.AddScoped<ConsumptionService>();
 
 builder.Services.AddSingleton<LoginService>();
 builder.Services.AddSingleton<JwtService>();
@@ -35,13 +38,12 @@ builder.Services.AddCors(configure =>
 {
     configure.AddPolicy("Default", policy =>
     {
-        policy.AllowAnyOrigin();
+        policy.WithOrigins("https://localhost:7077");
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
+        policy.AllowCredentials();
     });
 });
-
-builder.Services.AddAuthorization();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -58,9 +60,12 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["auth:issuer"],
             ValidAudience = builder.Configuration["auth:audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["auth:audience"]!))
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["auth:signing-key"]!))
         };
     });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -73,9 +78,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.UseFastEndpoints();
 

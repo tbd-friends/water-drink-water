@@ -11,8 +11,8 @@ using TbdFriends.WaterDrinkWater.Data.Contexts;
 namespace TbdFriends.WaterDrinkWater.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240118133628_add_login_session")]
-    partial class add_login_session
+    [Migration("20240123135918_log_consumption")]
+    partial class log_consumption
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,31 +43,24 @@ namespace TbdFriends.WaterDrinkWater.Data.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("TbdFriends.WaterDrinkWater.Data.Models.LoginSession", b =>
+            modelBuilder.Entity("TbdFriends.WaterDrinkWater.Data.Models.Consumption", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AccountId")
+                    b.Property<DateTime>("ConsumedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FluidOunces")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("Expiration")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("Revoked")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoginSessions");
+                    b.ToTable("Logs", (string)null);
                 });
 #pragma warning restore 612, 618
         }

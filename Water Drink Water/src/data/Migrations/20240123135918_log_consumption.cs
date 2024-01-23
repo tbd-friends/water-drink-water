@@ -6,26 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TbdFriends.WaterDrinkWater.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class add_login_session : Migration
+    public partial class log_consumption : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "LoginSessions",
+                name: "Logs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    AccountId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Token = table.Column<string>(type: "TEXT", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Expiration = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    Revoked = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FluidOunces = table.Column<int>(type: "INTEGER", nullable: false),
+                    ConsumedOn = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LoginSessions", x => x.Id);
+                    table.PrimaryKey("PK_Logs", x => x.Id);
                 });
         }
 
@@ -33,7 +31,7 @@ namespace TbdFriends.WaterDrinkWater.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "LoginSessions");
+                name: "Logs");
         }
     }
 }

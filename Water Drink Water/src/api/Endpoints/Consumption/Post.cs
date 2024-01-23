@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
 using FastEndpoints;
 using Microsoft.AspNetCore.Http.HttpResults;
+using TbdFriends.WaterDrinkWater.Application.Services;
 
 namespace TbdFriends.WaterDrinkWater.Api.Endpoints.Consumption;
 
-public class Post() : Endpoint<Post.Parameters, Results<Ok<bool>, BadRequest>>
+public class Post(ConsumptionService service) : Endpoint<Post.Parameters, Results<Ok<bool>, BadRequest>>
 {
     public override void Configure()
     {
@@ -13,12 +14,12 @@ public class Post() : Endpoint<Post.Parameters, Results<Ok<bool>, BadRequest>>
 
     public override Task<Results<Ok<bool>, BadRequest>> ExecuteAsync(Parameters req, CancellationToken ct)
     {
-        Debugger.Break();
+        var userId = User.Identity.Name;
 
-        /// Service.LogConsumption(new Consumption {
-        ///     UserId = User.Identify.Id,
-        ///     FluidOuncesConsumed = req.FluidOuncesConsumed
-        /// }));
+        // service.Log(
+        //     User.Identity.Name,
+        //     req.FluidOuncesConsumed
+        // );
 
         return base.ExecuteAsync(req, ct);
     }

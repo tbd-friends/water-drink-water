@@ -40,31 +40,24 @@ namespace TbdFriends.WaterDrinkWater.Data.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("TbdFriends.WaterDrinkWater.Data.Models.LoginSession", b =>
+            modelBuilder.Entity("TbdFriends.WaterDrinkWater.Data.Models.Consumption", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AccountId")
+                    b.Property<DateTime>("ConsumedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FluidOunces")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("Expiration")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("Revoked")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoginSessions");
+                    b.ToTable("Logs", (string)null);
                 });
 #pragma warning restore 612, 618
         }
