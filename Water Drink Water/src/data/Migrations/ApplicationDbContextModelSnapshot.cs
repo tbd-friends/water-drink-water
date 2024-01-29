@@ -59,6 +59,29 @@ namespace TbdFriends.WaterDrinkWater.Data.Migrations
 
                     b.ToTable("Logs", (string)null);
                 });
+
+            modelBuilder.Entity("TbdFriends.WaterDrinkWater.Data.Models.Preference", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TargetFluidOunces")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Preferences");
+                });
 #pragma warning restore 612, 618
         }
     }
