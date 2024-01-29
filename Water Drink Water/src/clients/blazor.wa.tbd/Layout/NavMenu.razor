@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using blazor.wa.tbd.Services
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Water, Drink Water</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -14,6 +15,13 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+
+        @if (isAuthenticated)
+        {
+            <div class="nav-item px-3" @onclick="@(async () => await Logout())">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Logout
+            </div>
+        }
     </nav>
 </div>
 
@@ -21,6 +29,24 @@
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    [Inject] private UserService UserService { get; set; } = null!;
+
+    private bool isAuthenticated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticated = await UserService.IsAuthenticated();
+    }
+
+    private async Task Logout()
+    {
+        await UserService.Logout();
+
+        isAuthenticated = false;
+
+        StateHasChanged();
+    }
 
     private void ToggleNavMenu()
     {

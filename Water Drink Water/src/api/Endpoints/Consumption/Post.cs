@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System.Security.Claims;
 using FastEndpoints;
 using Microsoft.AspNetCore.Http.HttpResults;
 using TbdFriends.WaterDrinkWater.Application.Services;
@@ -14,14 +14,21 @@ public class Post(ConsumptionService service) : Endpoint<Post.Parameters, Result
 
     public override Task<Results<Ok<bool>, BadRequest>> ExecuteAsync(Parameters req, CancellationToken ct)
     {
-        var userId = User.Identity.Name;
+        var user = User.Identity!.Name;
 
-        // service.Log(
-        //     User.Identity.Name,
-        //     req.FluidOuncesConsumed
-        // );
+        if (int.TryParse(
+                User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value.Split("|")[1],
+                out int userId))
+        {
+            service.Log(
+                userId,
+                req.FluidOuncesConsumed
+            );
 
-        return base.ExecuteAsync(req, ct);
+            return Task.FromResult<Results<Ok<bool>, BadRequest>>(TypedResults.Ok(true));
+        }
+
+        return Task.FromResult<Results<Ok<bool>, BadRequest>>(TypedResults.BadRequest());
     }
 
     public class Parameters
