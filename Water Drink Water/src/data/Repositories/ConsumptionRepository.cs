@@ -20,4 +20,28 @@ public class ConsumptionRepository(IDbContextFactory<ApplicationDbContext> facto
 
         context.SaveChanges();
     }
+
+    public void SetPreferences(int userId, int targetFluidOunces)
+    {
+        using var context = factory.CreateDbContext();
+
+        var preferences = context.Preferences.FirstOrDefault(p => p.UserId == userId);
+
+        if (preferences == null)
+        {
+            context.Preferences.Add(new Preference
+            {
+                UserId = userId,
+                TargetFluidOunces = targetFluidOunces,
+                CreatedOn = DateTime.UtcNow
+            });
+        }
+        else
+        {
+            preferences.TargetFluidOunces = targetFluidOunces;
+            preferences.UpdatedOn = DateTime.UtcNow;
+        }
+
+        context.SaveChanges();
+    }
 }

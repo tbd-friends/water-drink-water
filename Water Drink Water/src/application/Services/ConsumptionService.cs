@@ -8,4 +8,10 @@ public class ConsumptionService(IConsumptionRepository repository)
     {
         repository.LogConsumption(userId, fluidOuncesConsumed);
     }
+
+    public void SetPreferences(int userId,
+        int targetFluidOunces)
+    {
+        repository.SetPreferences(userId, targetFluidOunces);
+    }
 }

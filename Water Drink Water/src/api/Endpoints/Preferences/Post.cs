@@ -3,13 +3,13 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Http.HttpResults;
 using TbdFriends.WaterDrinkWater.Application.Services;
 
-namespace TbdFriends.WaterDrinkWater.Api.Endpoints.Consumption;
+namespace TbdFriends.WaterDrinkWater.Api.Endpoints.Preferences;
 
 public class Post(ConsumptionService service) : Endpoint<Post.Parameters, Results<Ok<bool>, BadRequest>>
 {
     public override void Configure()
     {
-        Post("api/consumption");
+        Post("api/preferences");
     }
 
     public override Task<Results<Ok<bool>, BadRequest>> ExecuteAsync(Parameters req, CancellationToken ct)
@@ -18,9 +18,9 @@ public class Post(ConsumptionService service) : Endpoint<Post.Parameters, Result
                 User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value.Split("|")[1],
                 out int userId))
         {
-            service.Log(
+            service.SetPreferences(
                 userId,
-                req.FluidOuncesConsumed
+                req.TargetFluidOunces
             );
 
             return Task.FromResult<Results<Ok<bool>, BadRequest>>(TypedResults.Ok(true));
@@ -31,6 +31,6 @@ public class Post(ConsumptionService service) : Endpoint<Post.Parameters, Result
 
     public class Parameters
     {
-        public int FluidOuncesConsumed { get; set; }
+        public int TargetFluidOunces { get; set; }
     }
 }

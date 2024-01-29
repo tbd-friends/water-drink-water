@@ -64,6 +64,23 @@ public class UserService(
         return response.IsSuccessStatusCode;
     }
 
+    public async Task<bool> SavePreferences(int targetFluidOunces)
+    {
+        var token = await _token.Value;
+
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return false;
+        }
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var response = await client.PostAsJsonAsync("api/preferences",
+            new { targetFluidOunces });
+
+        return response.IsSuccessStatusCode;
+    }
+
     public class LoginResponse
     {
         public string? Token { get; set; }
