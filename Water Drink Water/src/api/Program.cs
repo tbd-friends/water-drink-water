@@ -3,6 +3,7 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using TbdFriends.WaterDrinkWater.Api.Infrastructure;
 using TbdFriends.WaterDrinkWater.Application.Services;
 using TbdFriends.WaterDrinkWater.Application.Values;
 using TbdFriends.WaterDrinkWater.Data.Contexts;
@@ -74,6 +75,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.Services.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();

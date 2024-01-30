@@ -28,8 +28,4 @@
       <ProjectReference Include="..\application\application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Infrastructure\" />
-    </ItemGroup>
-
 </Project>
