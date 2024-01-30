@@ -11,16 +11,3 @@
         </div>
     </div>
 </div>
-
-
-@code {
-    [Inject] private UserService UserService { get; set; } = null!;
-
-    private int TargetFluidOunces { get; set; } = 0;
-
-    private async Task SavePreferences()
-    {
-        await UserService.SavePreferences(TargetFluidOunces);
-    }
-
-}
