@@ -44,4 +44,11 @@ public class ConsumptionRepository(IDbContextFactory<ApplicationDbContext> facto
 
         context.SaveChanges();
     }
+
+    public int? GetPreferences(int userId)
+    {
+        using var context = factory.CreateDbContext();
+        var preferences = context.Preferences.FirstOrDefault(p => p.UserId == userId);
+        return preferences?.TargetFluidOunces;
+    }
 }
