@@ -14,4 +14,9 @@ public class ConsumptionService(IConsumptionRepository repository)
     {
         repository.SetPreferences(userId, targetFluidOunces);
     }
+
+    public int GetProgress(int userId)
+    {
+        return 0;
+    }
 }
