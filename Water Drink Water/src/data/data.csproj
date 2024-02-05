@@ -14,4 +14,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\viewmodels\viewmodels.csproj" />
+    </ItemGroup>
+
 </Project>
