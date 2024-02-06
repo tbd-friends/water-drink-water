@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using TbdFriends.WaterDrinkWater.Application.Services;
 using viewmodels;
 
-namespace TbdFriends.WaterDrinkWater.Api.Endpoints.Consumption;
+namespace TbdFriends.WaterDrinkWater.Api.Endpoints.Preferences;
 
 public class Get(ConsumptionService service) : EndpointWithoutRequest<Results<Ok<PreferencesViewModel>, BadRequest>>
 {
