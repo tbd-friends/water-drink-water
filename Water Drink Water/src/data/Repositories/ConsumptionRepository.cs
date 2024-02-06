@@ -22,6 +22,17 @@ public class ConsumptionRepository(IDbContextFactory<ApplicationDbContext> facto
         context.SaveChanges();
     }
 
+    public IEnumerable<Consumption> GetLogs(int userId, DateTime userDateTime)
+    {
+        using var context = factory.CreateDbContext();
+
+        return context.Logs.Where(l =>
+                l.UserId == userId &&
+                l.ConsumedOn.Date == userDateTime.Date)
+            .OrderByDescending(l => l.ConsumedOn)
+            .ToList();
+    }
+
     public PreferencesViewModel GetPreferences(int userId)
     {
         using var context = factory.CreateDbContext();

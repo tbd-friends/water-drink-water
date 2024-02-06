@@ -1,4 +1,6 @@
-﻿namespace application.tests.ConcerningGoals;
+﻿using viewmodels;
+
+namespace application.tests.ConcerningGoals;
 
 public class when_requesting_progress_and_goal_set
 {
@@ -8,11 +10,14 @@ public class when_requesting_progress_and_goal_set
         // Arrange
         var userId = 1;
         var repository = Substitute.For<IConsumptionRepository>();
+        
+        repository.GetPreferences(Arg.Is(userId))
+            .Returns(new PreferencesViewModel());
 
         var subject = new ConsumptionService(repository);
 
         // Act
-        var result = subject.GetProgress(userId);
+        var result = subject.GetProgressPercentage(userId);
 
         // Assert
         Assert.Equal(0, result);
@@ -21,15 +26,33 @@ public class when_requesting_progress_and_goal_set
     [Fact]
     public void and_a_log_has_been_made_should_return_percentage_of_goal()
     {
+        int expectedProgress = 10;
+
         // Assert
         var userId = 1;
         var repository = Substitute.For<IConsumptionRepository>();
 
+        repository.GetPreferences(Arg.Is(userId))
+            .Returns(new PreferencesViewModel { TargetFluidOunces = 120 });
+
+        repository.GetLogs(Arg.Is(userId), Arg.Any<DateTime>())
+            .Returns(new List<Consumption>
+            {
+                new()
+                {
+                    UserId = userId,
+                    FluidOunces = 12,
+                    ConsumedOn = DateTime.UtcNow
+                }
+            });
+
         var subject = new ConsumptionService(repository);
 
         // Act  
-        var result = subject.GetProgress(userId);
+        var result = subject.GetProgressPercentage(userId);
 
         // Assert
+
+        Assert.Equal(10, result);
     }
 }

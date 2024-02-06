@@ -21,8 +21,19 @@ public class ConsumptionService(IConsumptionRepository repository)
         return repository.GetPreferences(userId);
     }
 
-    public int GetProgress(int userId)
+    public int GetProgressPercentage(int userId)
     {
-        return 0;
+        var preferences = repository.GetPreferences(userId);
+        
+        if ( preferences.TargetFluidOunces <= 0) return 0;
+        
+        var logs = repository.GetLogs(userId, DateTime.UtcNow);
+        
+        var totalConsumed = logs.Sum(l => l.FluidOunces);
+        
+        var progress = (int) (totalConsumed / (double) preferences.TargetFluidOunces * 100);
+        
+        return progress;
+
     }
 }
