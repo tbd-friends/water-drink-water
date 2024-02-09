@@ -6,7 +6,9 @@ using viewmodels;
 
 namespace TbdFriends.WaterDrinkWater.Data.Repositories;
 
-public class ConsumptionRepository(IDbContextFactory<ApplicationDbContext> factory) : IConsumptionRepository
+public class ConsumptionRepository(
+    IDbContextFactory<ApplicationDbContext> factory,
+    TimeProvider timeProvider) : IConsumptionRepository
 {
     public void LogConsumption(int userId, int amount)
     {
@@ -22,13 +24,15 @@ public class ConsumptionRepository(IDbContextFactory<ApplicationDbContext> facto
         context.SaveChanges();
     }
 
-    public IEnumerable<Consumption> GetLogs(int userId, DateTime userDateTime)
+    public IEnumerable<Consumption> GetLogs(int userId, int timezoneOffsetHours)
     {
         using var context = factory.CreateDbContext();
 
+        var now = timeProvider.GetUtcNow().AddHours(timezoneOffsetHours).Date;
+
         return context.Logs.Where(l =>
                 l.UserId == userId &&
-                l.ConsumedOn.Date == userDateTime.Date)
+                l.ConsumedOn.AddHours(timezoneOffsetHours).Date == now)
             .OrderByDescending(l => l.ConsumedOn)
             .ToList();
     }

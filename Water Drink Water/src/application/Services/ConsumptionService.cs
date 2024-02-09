@@ -27,7 +27,7 @@ public class ConsumptionService(IConsumptionRepository repository)
         
         if ( preferences.TargetFluidOunces <= 0) return 0;
         
-        var logs = repository.GetLogs(userId, DateTime.UtcNow);
+        var logs = repository.GetLogs(userId, 0);
         
         var totalConsumed = logs.Sum(l => l.FluidOunces);
         

@@ -10,7 +10,7 @@ public class when_requesting_progress_and_goal_set
         // Arrange
         var userId = 1;
         var repository = Substitute.For<IConsumptionRepository>();
-        
+
         repository.GetPreferences(Arg.Is(userId))
             .Returns(new PreferencesViewModel());
 
@@ -35,7 +35,7 @@ public class when_requesting_progress_and_goal_set
         repository.GetPreferences(Arg.Is(userId))
             .Returns(new PreferencesViewModel { TargetFluidOunces = 120 });
 
-        repository.GetLogs(Arg.Is(userId), Arg.Any<DateTime>())
+        repository.GetLogs(Arg.Is(userId), 0)
             .Returns(new List<Consumption>
             {
                 new()
@@ -53,6 +53,6 @@ public class when_requesting_progress_and_goal_set
 
         // Assert
 
-        Assert.Equal(10, result);
+        Assert.Equal(expectedProgress, result);
     }
 }
