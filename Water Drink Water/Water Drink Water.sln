@@ -1,10 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "src\api\api.csproj", "{E5A3BDD6-ABA1-4A31-86C6-3385C8822032}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api", "src\api\api.csproj", "{E5A3BDD6-ABA1-4A31-86C6-3385C8822032}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "application", "src\application\application.csproj", "{C10A487E-C039-47FD-A027-E532F132DFAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "application", "src\application\application.csproj", "{C10A487E-C039-47FD-A027-E532F132DFAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data", "src\data\data.csproj", "{B3F59A62-9DC1-4E25-A101-4EE1724DB01A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "data", "src\data\data.csproj", "{B3F59A62-9DC1-4E25-A101-4EE1724DB01A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{69408543-1CC8-4A4F-8459-BF966445C70C}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,11 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{69408543-1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B18C030F-C19D-463B-A5D1-63B3AD1B4731}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "application.tests", "tests\application.tests\application.tests.csproj", "{889CDFC4-EE77-4691-8826-41103EB12371}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "application.tests", "tests\application.tests\application.tests.csproj", "{889CDFC4-EE77-4691-8826-41103EB12371}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{7AA49774-CE11-48AD-891F-1AF9E6A03610}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blazor.wa.tbd", "src\clients\blazor.wa.tbd\blazor.wa.tbd.csproj", "{50061E27-E7C0-4B50-9BB9-092C1285E228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blazor.wa.tbd", "src\clients\blazor.wa.tbd\blazor.wa.tbd.csproj", "{50061E27-E7C0-4B50-9BB9-092C1285E228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +48,9 @@ Global
 		{50061E27-E7C0-4B50-9BB9-092C1285E228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50061E27-E7C0-4B50-9BB9-092C1285E228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50061E27-E7C0-4B50-9BB9-092C1285E228}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{889CDFC4-EE77-4691-8826-41103EB12371} = {B18C030F-C19D-463B-A5D1-63B3AD1B4731}
