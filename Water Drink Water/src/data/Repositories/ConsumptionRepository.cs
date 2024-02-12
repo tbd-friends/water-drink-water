@@ -2,10 +2,13 @@
 using TbdFriends.WaterDrinkWater.Data.Contexts;
 using TbdFriends.WaterDrinkWater.Data.Contracts;
 using TbdFriends.WaterDrinkWater.Data.Models;
+using viewmodels;
 
 namespace TbdFriends.WaterDrinkWater.Data.Repositories;
 
-public class ConsumptionRepository(IDbContextFactory<ApplicationDbContext> factory) : IConsumptionRepository
+public class ConsumptionRepository(
+    IDbContextFactory<ApplicationDbContext> factory,
+    TimeProvider timeProvider) : IConsumptionRepository
 {
     public void LogConsumption(int userId, int amount)
     {
@@ -19,6 +22,32 @@ public class ConsumptionRepository(IDbContextFactory<ApplicationDbContext> facto
         });
 
         context.SaveChanges();
+    }
+
+    public IEnumerable<Consumption> GetLogsForToday(int userId, int timezoneOffsetHours)
+    {
+        using var context = factory.CreateDbContext();
+
+        var now = timeProvider.GetUtcNow().AddHours(timezoneOffsetHours).Date;
+
+        return context.Logs.Where(l =>
+                l.UserId == userId &&
+                l.ConsumedOn.AddHours(timezoneOffsetHours).Date == now)
+            .OrderByDescending(l => l.ConsumedOn)
+            .ToList();
+    }
+
+    public PreferencesViewModel GetPreferences(int userId)
+    {
+        using var context = factory.CreateDbContext();
+
+        var preferences = context.Preferences.FirstOrDefault(p => p.UserId == userId);
+
+        return new PreferencesViewModel
+        {
+            TargetFluidOunces = preferences?.TargetFluidOunces ?? 0,
+            TimeZoneOffsetHours = preferences?.TimeZoneOffsetHours ?? 0
+        };
     }
 
     public void SetPreferences(int userId, int targetFluidOunces)

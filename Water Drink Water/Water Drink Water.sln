@@ -22,6 +22,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{7AA4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blazor.wa.tbd", "src\clients\blazor.wa.tbd\blazor.wa.tbd.csproj", "{50061E27-E7C0-4B50-9BB9-092C1285E228}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "viewmodels", "src\viewmodels\viewmodels.csproj", "{0F2A5D72-E357-4CDB-AC75-101F2D425C99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data.tests", "tests\data.tests\data.tests.csproj", "{692FB6BA-60D5-43E4-86A9-38FB88A0D36F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +52,14 @@ Global
 		{50061E27-E7C0-4B50-9BB9-092C1285E228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50061E27-E7C0-4B50-9BB9-092C1285E228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50061E27-E7C0-4B50-9BB9-092C1285E228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F2A5D72-E357-4CDB-AC75-101F2D425C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F2A5D72-E357-4CDB-AC75-101F2D425C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F2A5D72-E357-4CDB-AC75-101F2D425C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F2A5D72-E357-4CDB-AC75-101F2D425C99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{692FB6BA-60D5-43E4-86A9-38FB88A0D36F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{692FB6BA-60D5-43E4-86A9-38FB88A0D36F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{692FB6BA-60D5-43E4-86A9-38FB88A0D36F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692FB6BA-60D5-43E4-86A9-38FB88A0D36F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,5 +67,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{889CDFC4-EE77-4691-8826-41103EB12371} = {B18C030F-C19D-463B-A5D1-63B3AD1B4731}
 		{50061E27-E7C0-4B50-9BB9-092C1285E228} = {7AA49774-CE11-48AD-891F-1AF9E6A03610}
+		{692FB6BA-60D5-43E4-86A9-38FB88A0D36F} = {B18C030F-C19D-463B-A5D1-63B3AD1B4731}
 	EndGlobalSection
 EndGlobal
