@@ -35,7 +35,7 @@ public class when_requesting_progress_and_goal_set
         repository.GetPreferences(Arg.Is(userId))
             .Returns(new PreferencesViewModel { TargetFluidOunces = 120 });
 
-        repository.GetLogs(Arg.Is(userId), 0)
+        repository.GetLogsForToday(Arg.Is(userId), 0)
             .Returns(new List<Consumption>
             {
                 new()

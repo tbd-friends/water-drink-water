@@ -6,7 +6,7 @@ namespace TbdFriends.WaterDrinkWater.Data.Contracts;
 public interface IConsumptionRepository
 {
     void LogConsumption(int userId, int amount);
-    IEnumerable<Consumption> GetLogs(int userId, int timezoneOffsetHours);
+    IEnumerable<Consumption> GetLogsForToday(int userId, int timezoneOffsetHours);
     PreferencesViewModel GetPreferences(int userId);
     void SetPreferences(int userId, int targetFluidOunces);
 }

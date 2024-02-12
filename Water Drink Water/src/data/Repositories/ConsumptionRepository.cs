@@ -24,7 +24,7 @@ public class ConsumptionRepository(
         context.SaveChanges();
     }
 
-    public IEnumerable<Consumption> GetLogs(int userId, int timezoneOffsetHours)
+    public IEnumerable<Consumption> GetLogsForToday(int userId, int timezoneOffsetHours)
     {
         using var context = factory.CreateDbContext();
 
