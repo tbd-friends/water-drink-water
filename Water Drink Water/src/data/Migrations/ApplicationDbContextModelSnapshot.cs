@@ -72,6 +72,9 @@ namespace TbdFriends.WaterDrinkWater.Data.Migrations
                     b.Property<int>("TargetFluidOunces")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("TimeZoneOffsetHours")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("TEXT");
 

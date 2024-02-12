@@ -45,7 +45,8 @@ public class ConsumptionRepository(
 
         return new PreferencesViewModel
         {
-            TargetFluidOunces = preferences?.TargetFluidOunces ?? 0
+            TargetFluidOunces = preferences?.TargetFluidOunces ?? 0,
+            TimeZoneOffsetHours = preferences?.TimeZoneOffsetHours ?? 0
         };
     }
 

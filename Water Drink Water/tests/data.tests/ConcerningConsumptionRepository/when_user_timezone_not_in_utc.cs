@@ -6,7 +6,7 @@ using TbdFriends.WaterDrinkWater.Data.Models;
 using TbdFriends.WaterDrinkWater.Data.Repositories;
 using Xunit;
 
-namespace data.tests.ConceringConsumptionRepository;
+namespace data.tests.ConcerningConsumptionRepository;
 
 public class when_user_timezone_not_in_utc
 {
