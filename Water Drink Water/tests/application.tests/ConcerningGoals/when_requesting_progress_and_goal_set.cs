@@ -33,9 +33,9 @@ public class when_requesting_progress_and_goal_set
         var repository = Substitute.For<IConsumptionRepository>();
 
         repository.GetPreferences(Arg.Is(userId))
-            .Returns(new PreferencesViewModel { TargetFluidOunces = 120 });
+            .Returns(new PreferencesViewModel { TargetFluidOunces = 120, TimeZoneOffsetHours = 0 });
 
-        repository.GetLogsForToday(Arg.Is(userId), 0)
+        repository.GetLogsForToday(Arg.Is(userId), Arg.Is(0))
             .Returns(new List<Consumption>
             {
                 new()
