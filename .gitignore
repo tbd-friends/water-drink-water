@@ -5,6 +5,11 @@
 
 .idea
 
+# Exclude the database 
+
+WaterDrinkWater.*
+
+
 # User-specific files
 *.rsuser
 *.suo
