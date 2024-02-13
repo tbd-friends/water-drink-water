@@ -11,9 +11,10 @@ public class ConsumptionService(IConsumptionRepository repository)
     }
 
     public void SetPreferences(int userId,
-        int targetFluidOunces)
+        int targetFluidOunces,
+        int timeZoneOffsetHours)
     {
-        repository.SetPreferences(userId, targetFluidOunces);
+        repository.SetPreferences(userId, targetFluidOunces, timeZoneOffsetHours);
     }
 
     public PreferencesViewModel GetPreferences(int userId)

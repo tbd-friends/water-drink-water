@@ -50,7 +50,7 @@ public class ConsumptionRepository(
         };
     }
 
-    public void SetPreferences(int userId, int targetFluidOunces)
+    public void SetPreferences(int userId, int targetFluidOunces, int timeZoneOffsetHours)
     {
         using var context = factory.CreateDbContext();
 
@@ -62,12 +62,14 @@ public class ConsumptionRepository(
             {
                 UserId = userId,
                 TargetFluidOunces = targetFluidOunces,
+                TimeZoneOffsetHours = timeZoneOffsetHours,
                 CreatedOn = DateTime.UtcNow
             });
         }
         else
         {
             preferences.TargetFluidOunces = targetFluidOunces;
+            preferences.TimeZoneOffsetHours = timeZoneOffsetHours;
             preferences.UpdatedOn = DateTime.UtcNow;
         }
 

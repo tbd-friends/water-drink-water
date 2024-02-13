@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using Blazored.LocalStorage;
+using viewmodels;
 
 namespace blazor.wa.tbd.Services;
 
@@ -64,7 +65,21 @@ public class UserService(
         return response.IsSuccessStatusCode;
     }
 
-    public async Task<bool> SavePreferences(int targetFluidOunces)
+    public async Task<PreferencesViewModel?> GetPreferences()
+    {
+        var token = await _token.Value;
+
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return null;
+        }
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        return await client.GetFromJsonAsync<PreferencesViewModel>("api/preferences");
+    }
+
+    public async Task<bool> SavePreferences(int targetFluidOunces, int timeZoneOffsetHours)
     {
         var token = await _token.Value;
 
@@ -76,7 +91,7 @@ public class UserService(
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var response = await client.PostAsJsonAsync("api/preferences",
-            new { targetFluidOunces });
+            new { targetFluidOunces, timeZoneOffsetHours });
 
         return response.IsSuccessStatusCode;
     }
