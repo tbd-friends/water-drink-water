@@ -1,13 +1,27 @@
 ﻿@page "/preferences"
-@using blazor.wa.tbd.Services
 <h3>Preferences</h3>
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <label for="fluid-ounces-consumed">Target</label>
-            <input id="fluid-ounces-consumed" type="number" class="form-control" @bind="TargetFluidOunces"/>
-            <button class="btn btn-primary" onclick="@(async () => await SavePreferences())">Save</button>
+            <label for="fluid-ounces-consumed">Target Fluid Ounces</label>
+            <input id="fluid-ounces-consumed" type="number" class="form-control" @bind="Current.TargetFluidOunces"/>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label for="timezone">Timezone</label>
+
+            <select id="timezone" class="form-control" @bind="Current.TimeZoneId">
+                @foreach (var tz in TimeZones)
+                {
+                    <option value="@tz.Id">@tz.DisplayName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <button class="btn btn-primary" onclick="@(async () => await SavePreferences())">Save</button>
     </div>
 </div>

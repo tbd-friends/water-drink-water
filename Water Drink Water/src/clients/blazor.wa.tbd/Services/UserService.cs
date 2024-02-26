@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using Blazored.LocalStorage;
+using viewmodels;
 
 namespace blazor.wa.tbd.Services;
 
@@ -64,7 +65,26 @@ public class UserService(
         return response.IsSuccessStatusCode;
     }
 
-    public async Task<bool> SavePreferences(int targetFluidOunces)
+    public async Task<PreferencesViewModel?> GetPreferences()
+    {
+        var token = await _token.Value;
+
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return null;
+        }
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        return await client.GetFromJsonAsync<PreferencesViewModel>("api/preferences");
+    }
+
+    public async Task<IEnumerable<TimeZoneModel>> GetTimeZones()
+    {
+        return await client.GetFromJsonAsync<IEnumerable<TimeZoneModel>>("api/timezones");
+    }
+
+    public async Task<bool> SavePreferences(int targetFluidOunces, string timeZoneId)
     {
         var token = await _token.Value;
 
@@ -76,7 +96,7 @@ public class UserService(
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var response = await client.PostAsJsonAsync("api/preferences",
-            new { targetFluidOunces });
+            new { targetFluidOunces, timeZoneId });
 
         return response.IsSuccessStatusCode;
     }
@@ -84,5 +104,11 @@ public class UserService(
     public class LoginResponse
     {
         public string? Token { get; set; }
+    }
+
+    public class TimeZoneModel
+    {
+        public string Id { get; set; }
+        public string DisplayName { get; set; }
     }
 }

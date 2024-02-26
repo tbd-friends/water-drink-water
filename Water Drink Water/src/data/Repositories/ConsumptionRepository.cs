@@ -43,14 +43,20 @@ public class ConsumptionRepository(
 
         var preferences = context.Preferences.FirstOrDefault(p => p.UserId == userId);
 
+        var timeZoneId = !string.IsNullOrEmpty(preferences?.TimeZoneId) ? preferences.TimeZoneId : TimeZoneInfo.Utc.Id;
+
+        var offsetHours = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId)
+            .BaseUtcOffset.Hours;
+
         return new PreferencesViewModel
         {
             TargetFluidOunces = preferences?.TargetFluidOunces ?? 0,
-            TimeZoneOffsetHours = preferences?.TimeZoneOffsetHours ?? 0
+            TimeZoneId = preferences?.TimeZoneId ?? TimeZoneInfo.Utc.Id,
+            TimeZoneOffsetHours = offsetHours
         };
     }
 
-    public void SetPreferences(int userId, int targetFluidOunces)
+    public void SetPreferences(int userId, int targetFluidOunces, string timeZoneId)
     {
         using var context = factory.CreateDbContext();
 
@@ -62,12 +68,14 @@ public class ConsumptionRepository(
             {
                 UserId = userId,
                 TargetFluidOunces = targetFluidOunces,
+                TimeZoneId = timeZoneId,
                 CreatedOn = DateTime.UtcNow
             });
         }
         else
         {
             preferences.TargetFluidOunces = targetFluidOunces;
+            preferences.TimeZoneId = timeZoneId;
             preferences.UpdatedOn = DateTime.UtcNow;
         }
 
