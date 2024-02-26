@@ -12,10 +12,10 @@
         <div class="col-md-12">
             <label for="timezone">Timezone</label>
 
-            <select id="timezone" class="form-control" @bind="Current.TimeZoneOffsetHours">
-                @foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
+            <select id="timezone" class="form-control" @bind="Current.TimeZoneId">
+                @foreach (var tz in TimeZones)
                 {
-                    <option value="@tz.BaseUtcOffset.TotalHours">@tz.DisplayName</option>
+                    <option value="@tz.Id">@tz.DisplayName</option>
                 }
             </select>
         </div>

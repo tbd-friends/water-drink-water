@@ -21,7 +21,7 @@ public class Post(ConsumptionService service) : Endpoint<Post.Parameters, Result
             service.SetPreferences(
                 userId,
                 req.TargetFluidOunces,
-                req.TimeZoneOffsetHours
+                req.TimeZoneId
             );
 
             return Task.FromResult<Results<Ok<bool>, BadRequest>>(TypedResults.Ok(true));
@@ -33,6 +33,6 @@ public class Post(ConsumptionService service) : Endpoint<Post.Parameters, Result
     public class Parameters
     {
         public int TargetFluidOunces { get; set; }
-        public int TimeZoneOffsetHours { get; set; }
+        public string TimeZoneId { get; set; }
     }
 }

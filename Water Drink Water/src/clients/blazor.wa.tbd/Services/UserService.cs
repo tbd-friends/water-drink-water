@@ -79,7 +79,12 @@ public class UserService(
         return await client.GetFromJsonAsync<PreferencesViewModel>("api/preferences");
     }
 
-    public async Task<bool> SavePreferences(int targetFluidOunces, int timeZoneOffsetHours)
+    public async Task<IEnumerable<TimeZoneModel>> GetTimeZones()
+    {
+        return await client.GetFromJsonAsync<IEnumerable<TimeZoneModel>>("api/timezones");
+    }
+
+    public async Task<bool> SavePreferences(int targetFluidOunces, string timeZoneId)
     {
         var token = await _token.Value;
 
@@ -91,7 +96,7 @@ public class UserService(
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         var response = await client.PostAsJsonAsync("api/preferences",
-            new { targetFluidOunces, timeZoneOffsetHours });
+            new { targetFluidOunces, timeZoneId });
 
         return response.IsSuccessStatusCode;
     }
@@ -99,5 +104,11 @@ public class UserService(
     public class LoginResponse
     {
         public string? Token { get; set; }
+    }
+
+    public class TimeZoneModel
+    {
+        public string Id { get; set; }
+        public string DisplayName { get; set; }
     }
 }
