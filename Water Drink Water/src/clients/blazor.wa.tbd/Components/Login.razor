@@ -1,0 +1,22 @@
+﻿<h3>Login</h3>
+@if (ShowAuthError)
+{
+    <div>
+        <p>@Error</p>
+    </div>
+}
+
+<EditForm Model="formData" OnValidSubmit="ExecuteLogin">
+    <DataAnnotationsValidator/>
+    <div>
+        <label for="email" class="form-label">Email:</label>
+        <InputText id="email" class="form-control" @bind-Value="formData.Email"/>
+    </div>
+    <div>
+        <label for="password" class="form-label">Password:</label>
+        <InputText type="password" id="password" class="form-control" @bind-Value="formData.Password"/>
+    </div>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</EditForm>
