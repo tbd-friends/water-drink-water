@@ -16,10 +16,6 @@ builder.Services.AddHttpClient<UserService>(client => { client.BaseAddress = new
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 builder.Services.AddAuthorizationCore();
-builder.Services.AddCascadingAuthenticationState();
-
-builder.Services.AddSingleton<CustomAuthenticationStateProvider>();
-builder.Services.AddSingleton<AuthenticationStateProvider>(provider =>
-    provider.GetRequiredService<CustomAuthenticationStateProvider>());
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 await builder.Build().RunAsync();
