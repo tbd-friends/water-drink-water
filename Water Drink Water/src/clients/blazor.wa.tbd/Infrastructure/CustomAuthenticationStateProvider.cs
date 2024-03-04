@@ -1,25 +1,36 @@
 ﻿using System.Security.Claims;
-using blazor.wa.tbd.Services;
+using blazor.wa.tbd.Helpers;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace blazor.wa.tbd.Infrastructure;
 
-public class CustomAuthenticationStateProvider(UserService userService) : AuthenticationStateProvider
+public class CustomAuthenticationStateProvider(ILocalStorageService localStorageService)
+    : AuthenticationStateProvider
 {
+    private readonly AuthenticationState _anonymous = new(new ClaimsPrincipal(new ClaimsIdentity()));
+    
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var isAuthenticated = await userService.IsAuthenticated();
-
-        var identity = isAuthenticated
-            ? new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "user") },
-                authenticationType: nameof(CustomAuthenticationStateProvider))
-            : new ClaimsIdentity();
-
-        return new AuthenticationState(new ClaimsPrincipal(identity));
+        var token = await localStorageService.GetItemAsync<string>("authToken");
+        if (string.IsNullOrEmpty(token))
+            return _anonymous;
+        
+        return new AuthenticationState(
+            new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
     }
 
-    public void NotifyUserHasChanged()
+    public void NotifyUserAuthentication(string email)
     {
-        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        var authenticatedUser =
+            new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, email) }, "jwtAuthType"));
+        var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
+        NotifyAuthenticationStateChanged(authState);
+    }
+
+    public void NotifyUserLogout()
+    {
+        var authState = Task.FromResult(_anonymous);
+        NotifyAuthenticationStateChanged(authState);
     }
 }
