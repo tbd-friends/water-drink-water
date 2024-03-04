@@ -2,13 +2,16 @@
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using blazor.wa.tbd.Infrastructure;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using viewmodels;
 
 namespace blazor.wa.tbd.Services;
 
 public class UserService(
     HttpClient client,
+    AuthenticationStateProvider authenticationStateProvider,
     ILocalStorageService localStorage)
 {
     private readonly Lazy<ValueTask<string>> _token = new(localStorage.GetItemAsync<string>("token"));
@@ -53,14 +56,17 @@ public class UserService(
             return false;
         }
 
-        await localStorage.SetItemAsync("token", loginResponse.Token);
+        await localStorage.SetItemAsync("authToken", loginResponse.Token);
+        ((CustomAuthenticationStateProvider)authenticationStateProvider).NotifyUserAuthentication(email);
+
 
         return true;
     }
 
     public async Task Logout()
     {
-        await localStorage.ClearAsync();
+        await localStorage.RemoveItemAsync("authToken");
+        ((CustomAuthenticationStateProvider)authenticationStateProvider).NotifyUserLogout();
     }
 
     public async Task<bool> LogConsumption(int fluidOuncesConsumed)
