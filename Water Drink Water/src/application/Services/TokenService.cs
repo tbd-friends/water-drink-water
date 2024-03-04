@@ -17,14 +17,13 @@ public class JwtService(IConfiguration configuration)
         {
             new Claim(ClaimTypes.NameIdentifier, userId),
             new Claim(ClaimTypes.Name, username),
-            // Add any additional claims you need here
         };
 
         var token = new JwtSecurityToken(
             issuer: configuration["auth:issuer"],
             audience: configuration["auth:audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(1), // Set the expiration time
+            expires: DateTime.UtcNow.AddHours(1), 
             signingCredentials: credentials
         );
 

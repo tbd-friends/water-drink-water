@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using Blazored.LocalStorage;
 using viewmodels;
@@ -10,13 +11,27 @@ public class UserService(
     HttpClient client,
     ILocalStorageService localStorage)
 {
-    private Lazy<ValueTask<string>> _token = new(localStorage.GetItemAsync<string>("token"));
+    private readonly Lazy<ValueTask<string>> _token = new(localStorage.GetItemAsync<string>("token"));
 
     public async Task<bool> IsAuthenticated()
     {
         var token = await _token.Value;
 
-        return !string.IsNullOrWhiteSpace(token);
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return false;
+        }
+
+        var request = new HttpRequestMessage(HttpMethod.Head, "api/validate");
+
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+
+        var response = await client.SendAsync(request);
+
+        return response.IsSuccessStatusCode;
     }
 
     public async Task<bool> Authenticate(string email, string password)
@@ -79,7 +94,7 @@ public class UserService(
         return await client.GetFromJsonAsync<PreferencesViewModel>("api/preferences");
     }
 
-    public async Task<IEnumerable<TimeZoneModel>> GetTimeZones()
+    public async Task<IEnumerable<TimeZoneModel>?> GetTimeZones()
     {
         return await client.GetFromJsonAsync<IEnumerable<TimeZoneModel>>("api/timezones");
     }

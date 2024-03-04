@@ -1,5 +1,8 @@
 ﻿@page "/"
-@using blazor.wa.tbd.Services
+
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [AllowAnonymous]
 
 <PageTitle>Welcome</PageTitle>
 
