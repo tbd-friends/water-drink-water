@@ -12,14 +12,13 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddHttpClient<UserService>(client => { client.BaseAddress = new Uri("https://localhost:7245"); });
+builder.Services.AddHttpClient<AuthService>(client => { client.BaseAddress = new Uri("https://localhost:7245"); });
 
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 
-builder.Services.AddSingleton<CustomAuthenticationStateProvider>();
-builder.Services.AddSingleton<AuthenticationStateProvider>(provider =>
-    provider.GetRequiredService<CustomAuthenticationStateProvider>());
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 await builder.Build().RunAsync();

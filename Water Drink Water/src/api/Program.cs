@@ -58,7 +58,15 @@ builder.Services.AddAuthentication(options =>
         {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true,
+            LifetimeValidator = (before, expires, token, parameters) =>
+            {
+                if (expires is not null)
+                {
+                    return expires > DateTime.UtcNow;
+                }
+
+                return false;
+            },
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["auth:issuer"],
             ValidAudience = builder.Configuration["auth:audience"],
@@ -90,7 +98,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
-
 
 app.UseCors("Default");
 

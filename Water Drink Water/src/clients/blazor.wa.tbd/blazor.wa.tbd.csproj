@@ -22,8 +22,4 @@
       <ProjectReference Include="..\..\viewmodels\viewmodels.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Components\" />
-    </ItemGroup>
-
 </Project>

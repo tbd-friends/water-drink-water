@@ -23,7 +23,7 @@ public class JwtService(IConfiguration configuration)
             issuer: configuration["auth:issuer"],
             audience: configuration["auth:audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(1), 
+            expires: DateTime.UtcNow.AddMinutes(1), 
             signingCredentials: credentials
         );
 

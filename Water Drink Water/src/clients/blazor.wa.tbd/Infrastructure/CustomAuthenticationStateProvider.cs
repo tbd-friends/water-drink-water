@@ -1,16 +1,17 @@
 ﻿using System.Security.Claims;
-using blazor.wa.tbd.Services;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace blazor.wa.tbd.Infrastructure;
 
-public class CustomAuthenticationStateProvider(UserService userService) : AuthenticationStateProvider
+public class CustomAuthenticationStateProvider(ILocalStorageService localStorageService)
+    : AuthenticationStateProvider
 {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var isAuthenticated = await userService.IsAuthenticated();
+        var token = await localStorageService.GetItemAsync<string>("token");
 
-        var identity = isAuthenticated
+        var identity = !string.IsNullOrEmpty(token)
             ? new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "user") },
                 authenticationType: nameof(CustomAuthenticationStateProvider))
             : new ClaimsIdentity();

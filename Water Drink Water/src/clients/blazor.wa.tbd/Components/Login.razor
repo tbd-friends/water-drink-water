@@ -1,0 +1,32 @@
+﻿@using blazor.wa.tbd.Services
+<h3>Login</h3>
+
+@if (ShowAuthError)
+{
+    <div>
+        <p>@Error</p>
+    </div>
+}
+
+<EditForm Model="formData" OnValidSubmit="ExecuteLogin">
+    <DataAnnotationsValidator/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <label for="email" class="form-label">Email:</label>
+                <InputText id="email" class="form-control" @bind-Value="formData.Email"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="password" class="form-label">Password:</label>
+                <InputText type="password" id="password" class="form-control" @bind-Value="formData.Password"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit">Login</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
