@@ -1,15 +1,10 @@
 ﻿@page "/"
-@using blazor.wa.tbd.Services
+
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [AllowAnonymous]
 
 <PageTitle>Welcome</PageTitle>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Login</h1>
-            <input type="email" class="form-control" placeholder="Email" @bind="Email"/>
-            <input type="password" class="form-control" placeholder="Password" @bind="Password"/>
-            <button class="btn btn-primary" onclick="@(async () => await Login())">Login</button>
-        </div>
-    </div>
-</div>
+<Login />
+
