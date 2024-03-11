@@ -5,6 +5,7 @@ using blazor.wa.tbd.Infrastructure;
 using blazor.wa.tbd.Services;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
+
+builder.Services.AddFluentUIComponents();
 
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
