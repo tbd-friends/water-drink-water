@@ -28,20 +28,31 @@ public class AuthService(
             return false;
         }
 
-        var request = new HttpRequestMessage(HttpMethod.Head, "api/validate");
+        try
+        {
+            var request = new HttpRequestMessage(HttpMethod.Head, "api/validate");
 
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-        var response = await client.SendAsync(request);
+            var response = await client.SendAsync(request);
 
-        if (!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
+            {
+                await localStorageService.RemoveItemAsync("token");
+            }
+
+            return response.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException _)
         {
             await localStorageService.RemoveItemAsync("token");
+
+            return false;
         }
-
-        ((CustomAuthenticationStateProvider)authenticationStateProvider).NotifyUserHasChanged();
-
-        return response.IsSuccessStatusCode;
+        finally
+        {
+            ((CustomAuthenticationStateProvider)authenticationStateProvider).NotifyUserHasChanged();
+        }
     }
 
     public async Task<bool> Authenticate(string email, string password)

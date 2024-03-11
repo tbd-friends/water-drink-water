@@ -1,7 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text.Json;
-using blazor.wa.tbd.Infrastructure;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using viewmodels;
