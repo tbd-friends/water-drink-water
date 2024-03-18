@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="nav-item d-flex justify-content-center">
-                    @if (Percentage is { } percentageValue)
+                    @if (ConsumptionState.Context.Percentage is { } percentageValue)
                     {
                         <LiquidGauge Percentage="@percentageValue"/>
                     }
@@ -66,6 +66,8 @@
     [Inject] private AuthService AuthService { get; set; } = null!;
     [Inject] private UserService UserService { get; set; } = null!;
 
+    [CascadingParameter] private ConsumptionStateProvider ConsumptionState { get; set; }
+    
     private bool Indeterminate { get; set; } = true;
     private int? Percentage { get; set; } = 0;
 

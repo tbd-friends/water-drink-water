@@ -1,0 +1,25 @@
+﻿@using blazor.wa.tbd.Services
+@implements IDisposable
+@inject UserService UserService
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    public ConsumptionContext Context { get; private set; } = new();
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    public async Task LogConsumption(int fluidOuncesConsumed)
+    {
+        if (await UserService.LogConsumption(fluidOuncesConsumed))
+        {
+            var percentage = await UserService.GetConsumptionPercentage();
+            Context.SetPercentage(percentage);
+        }
+    }
+
+    protected override void OnInitialized() => Context.OnStateChange += StateHasChanged;
+
+    public void Dispose() => Context.OnStateChange -= StateHasChanged;
+}
