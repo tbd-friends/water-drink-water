@@ -46,6 +46,13 @@
                         Logout
                     </NavLink>
                 </div>
+
+                <div class="nav-item d-flex justify-content-center">
+                    @if (Percentage is { } percentageValue)
+                    {
+                        <LiquidGauge Percentage="@percentageValue"/>
+                    }
+                </div>
             </Authorized>
         </AuthorizeView>
     </nav>
