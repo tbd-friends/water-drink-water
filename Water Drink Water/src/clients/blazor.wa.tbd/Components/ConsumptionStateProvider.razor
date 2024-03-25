@@ -14,12 +14,28 @@
     {
         if (await UserService.LogConsumption(fluidOuncesConsumed))
         {
-            var percentage = await UserService.GetConsumptionPercentage();
-            Context.SetPercentage(percentage);
+            await UpdateCurrentPercentage();
         }
     }
 
-    protected override void OnInitialized() => Context.OnStateChange += StateHasChanged;
+    public async Task RefreshContext()
+    {
+        await UpdateCurrentPercentage();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateCurrentPercentage();
+
+        Context.OnStateChange += StateHasChanged;
+    }
+
+    private async Task UpdateCurrentPercentage()
+    {
+        var percentage = await UserService.GetConsumptionPercentage();
+
+        Context.SetPercentage(percentage);
+    }
 
     public void Dispose() => Context.OnStateChange -= StateHasChanged;
 }
