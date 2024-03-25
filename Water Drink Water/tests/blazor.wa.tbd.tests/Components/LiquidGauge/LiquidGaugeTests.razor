@@ -14,6 +14,7 @@
 
         var spanElement = cut.Find("span");
         spanElement.GetInnerText().Should().Be("10%");
+        spanElement.MarkupMatches($"<span>{expectedPercentage}%</span>");
     }
 
     [Fact]
@@ -24,8 +25,9 @@
 
         var spanElement = cut.Find("span");
         spanElement.GetInnerText().Should().Be("100%");
+        spanElement.MarkupMatches($"<span>100%</span>");
     }
-    
+
     [Fact]
     public void LiquidGauge_WhenRendering_PercentageUnder0_ShouldShow0()
     {
@@ -34,8 +36,9 @@
 
         var spanElement = cut.Find("span");
         spanElement.GetInnerText().Should().Be("0%");
+        spanElement.MarkupMatches($"<span>0%</span>");
     }
-    
+
     [Fact]
     public void LiquidGauge_WhenRendered_ShouldShowWaterLevel()
     {
@@ -44,6 +47,7 @@
 
         var waterDiv = cut.Find("#liquid-gauge div");
         waterDiv.GetStyle().CssText.Should().Contain("top: 80%");
+        waterDiv.MarkupMatches(@<div style="top: 80%" diff:ignoreChildren></div>);
     }
 
     [Fact]
