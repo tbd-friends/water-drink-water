@@ -1,0 +1,56 @@
+﻿@using FluentAssertions
+@using blazor.wa.tbd.Components
+@using AngleSharp.Dom
+@using AngleSharp.Css.Dom
+@inherits TestContext
+
+@code {
+
+    [Fact]
+    public void LiquidGauge_WhenRendered_ShouldShowPercentage()
+    {
+        var expectedPercentage = 10;
+        var cut = Render(@<LiquidGauge Percentage="expectedPercentage"/>);
+
+        var spanElement = cut.Find("span");
+        spanElement.GetInnerText().Should().Be("10%");
+    }
+
+    [Fact]
+    public void LiquidGauge_WhenRendering_PercentageOver100_ShouldShow100()
+    {
+        var expectedPercentage = 110;
+        var cut = Render(@<LiquidGauge Percentage="expectedPercentage"/>);
+
+        var spanElement = cut.Find("span");
+        spanElement.GetInnerText().Should().Be("100%");
+    }
+    
+    [Fact]
+    public void LiquidGauge_WhenRendering_PercentageUnder0_ShouldShow0()
+    {
+        var expectedPercentage = -10;
+        var cut = Render(@<LiquidGauge Percentage="expectedPercentage"/>);
+
+        var spanElement = cut.Find("span");
+        spanElement.GetInnerText().Should().Be("0%");
+    }
+    
+    [Fact]
+    public void LiquidGauge_WhenRendered_ShouldShowWaterLevel()
+    {
+        var expectedPercentage = 20;
+        var cut = Render(@<LiquidGauge Percentage="expectedPercentage"/>);
+
+        var waterDiv = cut.Find("#liquid-gauge div");
+        waterDiv.GetStyle().CssText.Should().Contain("top: 80%");
+    }
+
+    [Fact]
+    public Task LiquidGauge_WhenRendered_PassesSnapshotTest()
+    {
+        var cut = Render(@<LiquidGauge Percentage="30"/>);
+        return Verify(cut);
+    }
+
+}
