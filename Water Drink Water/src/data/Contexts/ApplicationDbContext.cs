@@ -7,6 +7,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     : DbContext(options)
 {
     public DbSet<Account> Accounts { get; set; } = null!;
+    public DbSet<Group> Groups { get; set; } = null!;
     public DbSet<Consumption> Logs { get; set; } = null!;
     public DbSet<Preference> Preferences { get; set; } = null!;
 
