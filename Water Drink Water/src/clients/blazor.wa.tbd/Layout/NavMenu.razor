@@ -21,6 +21,12 @@
             </NotAuthorized>
 
             <Authorized>
+                <div class="nav-item d-flex justify-content-center pb-4">
+                    @if (ConsumptionState.Context.Percentage is var percentageValue)
+                    {
+                        <LiquidGauge Percentage="@percentageValue"/>
+                    }
+                </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/log" Match="NavLinkMatch.All">
                         <span class="bi bi-journal-arrow-down-nav-menu" aria-hidden="true"></span> Log
@@ -49,6 +55,19 @@
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     [Inject] private AuthService AuthService { get; set; } = null!;
+    [Inject] private UserService UserService { get; set; } = null!;
+
+    [CascadingParameter] private ConsumptionStateProvider ConsumptionState { get; set; }
+
+    private bool Indeterminate { get; set; } = true;
+    private int? Percentage { get; set; } = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Percentage = await UserService.GetConsumptionPercentage();
+
+        Indeterminate = false;
+    }
 
     private async Task Logout()
     {

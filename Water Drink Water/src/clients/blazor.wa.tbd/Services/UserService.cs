@@ -32,6 +32,27 @@ public class UserService(
         return response.IsSuccessStatusCode;
     }
 
+    public async Task<int> GetConsumptionPercentage()
+    {
+        var token = await _token.Value;
+
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return 0;
+        }
+        
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var response = await client.GetAsync("api/consumption");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return 0;
+        }
+        
+        return await response.Content.ReadFromJsonAsync<int>();
+    }
+
     public async Task<PreferencesViewModel?> GetPreferences()
     {
         var token = await _token.Value;
