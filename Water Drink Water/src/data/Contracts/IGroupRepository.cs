@@ -6,4 +6,5 @@ public interface IGroupRepository
 {
     void Add(Group group);
     Group? GetByName(string name, int userId);
+    IEnumerable<Group> GetGroups(int userId);
 }

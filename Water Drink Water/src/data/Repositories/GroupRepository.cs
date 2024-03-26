@@ -22,4 +22,13 @@ public class GroupRepository(IDbContextFactory<ApplicationDbContext> factory) : 
 
         return context.Groups.FirstOrDefault(g => g.Name == name && g.OwnerId == userId);
     }
+
+    public IEnumerable<Group> GetGroups(int userId)
+    {
+        using var context = factory.CreateDbContext();
+
+        return context.Groups
+            .Where(g => g.OwnerId == userId)
+            .ToList();
+    }
 }
