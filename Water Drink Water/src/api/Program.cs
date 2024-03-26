@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TbdFriends.WaterDrinkWater.Api.Infrastructure;
+using TbdFriends.WaterDrinkWater.Application.Contracts;
+using TbdFriends.WaterDrinkWater.Application.Infrastructure;
 using TbdFriends.WaterDrinkWater.Application.Services;
 using TbdFriends.WaterDrinkWater.Application.Values;
 using TbdFriends.WaterDrinkWater.Data.Contexts;
@@ -27,15 +29,18 @@ builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(configure =>
 
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddTransient<IConsumptionRepository, ConsumptionRepository>();
+builder.Services.AddTransient<IGroupRepository, GroupRepository>();
 
 builder.Services.AddScoped<AccountService>(provider => new AccountService(
     provider.GetRequiredService<IAccountRepository>(),
     (password) => new Password(password)));
 
 builder.Services.AddScoped<ConsumptionService>();
+builder.Services.AddScoped<GroupService>();
 
 builder.Services.AddSingleton<LoginService>();
 builder.Services.AddSingleton<JwtService>();
+builder.Services.AddSingleton<ICodeGenerator, CodeGenerator>();
 
 builder.Services.AddCors(configure =>
 {
